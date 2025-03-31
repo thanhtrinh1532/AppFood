@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import bach.dev.foody.CartActivity;
 import bach.dev.foody.ProductActivity;
 import bach.dev.foody.R;
 import bach.dev.foody.data.dto.ProductDto;
@@ -39,14 +40,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvPrice.setText(String.valueOf(product.getPrice()));
         Picasso.get().load(product.getThumbnail()).into(holder.ivThumbnail);
 
-        holder.ivThumbnail.setOnClickListener(
-                v -> {
-                    // Handle click event
-                    Intent intent = new Intent(v.getContext(), ProductActivity.class);
-                    intent.putExtra(Constants.PRODUCT_ID, product.getId());
-                    v.getContext().startActivity(intent);
-                }
-        );
+        // Sự kiện click vào ảnh sản phẩm
+        holder.ivThumbnail.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ProductActivity.class);
+            intent.putExtra(Constants.PRODUCT_ID, product.getId());
+            v.getContext().startActivity(intent);
+        });
+
+        // Sự kiện click vào giỏ hàng
+        holder.tvAddToCart.setOnClickListener(v -> {
+            // Mở CartActivity khi click vào giỏ hàng
+            Intent intent = new Intent(v.getContext(), CartActivity.class);
+            // Truyền dữ liệu sản phẩm vào CartActivity (có thể thêm product ID nếu cần)
+            intent.putExtra(Constants.PRODUCT_ID, product.getId());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -58,15 +66,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ImageView ivThumbnail;
         public TextView tvName;
         public TextView tvPrice;
+        public ImageView tvAddToCart;  // Đoạn này để tham chiếu đến ImageView giỏ hàng
 
         public ViewHolder(View itemView) {
             super(itemView);
-            // Dòng đã sửa: Cập nhật ID từ iv_product_thumbnail thành iv_product_item_thumbnail
-            ivThumbnail = itemView.findViewById(R.id.iv_product_item_thumbnail); // Đã sửa
-            // Dòng đã sửa: Cập nhật ID từ tv_product_name thành tv_product_item_name
-            tvName = itemView.findViewById(R.id.tv_product_item_name); // Đã sửa
-            // Dòng đã sửa: Cập nhật ID từ tv_product_price thành tv_product_item_price
-            tvPrice = itemView.findViewById(R.id.tv_product_item_price); // Đã sửa
+            ivThumbnail = itemView.findViewById(R.id.iv_product_item_thumbnail);
+            tvName = itemView.findViewById(R.id.tv_product_item_name);
+            tvPrice = itemView.findViewById(R.id.tv_product_item_price);
+            tvAddToCart = itemView.findViewById(R.id.tv_add_to_cart);  // Gán ImageView cho giỏ hàng
         }
     }
 }

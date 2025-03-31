@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:background="@android:color/white">
+
+    <!-- Hình ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/cart_item_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- Tên sản phẩm -->
+    <TextView
+        android:id="@+id/cart_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tên sản phẩm"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/cart_item_image"
+        app:layout_constraintTop_toTopOf="@id/cart_item_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="10dp"/>
+
+    <!-- Giá sản phẩm -->
+    <TextView
+        android:id="@+id/cart_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$12.99"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cart_item_name"
+        app:layout_constraintTop_toBottomOf="@id/cart_item_name"
+        android:paddingTop="4dp"/>
+
+    <!-- Số lượng sản phẩm -->
+    <LinearLayout
+        android:id="@+id/cart_item_quantity_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/cart_item_price"
+        app:layout_constraintTop_toBottomOf="@id/cart_item_price"
+        android:paddingTop="4dp">
+
+        <ImageView
+            android:id="@+id/btn_decrease"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_cart"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Giảm số lượng"/>
+
+        <TextView
+            android:id="@+id/cart_item_quantity"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:paddingHorizontal="10dp"/>
+
+        <ImageView
+            android:id="@+id/btn_increase"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_cart"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Tăng số lượng"/>
+    </LinearLayout>
+
+    <!-- Nút xóa sản phẩm khỏi giỏ hàng -->
+    <ImageView
+        android:id="@+id/btn_remove"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_cart"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="Xóa sản phẩm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

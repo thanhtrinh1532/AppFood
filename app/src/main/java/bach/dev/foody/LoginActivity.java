@@ -145,36 +145,79 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(view -> loginUser());
     }
 
-    private void loginUser() {
-        String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
+//    private void loginUser() {
+//        String email = etEmail.getText().toString().trim();
+//        String password = etPassword.getText().toString().trim();
+//
+//        if (email.isEmpty() || password.isEmpty()) {
+//            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        ApiService apiService = RetrofitClient.getApiService();
+//        UserDto request = new UserDto(email, password);
+//        UserDto post = new UserDto("trinh@gmail.com", "123");
+//        apiService.login(new UserDto(email, password)).enqueue(new Callback<UserDto>() {
+//            @Override
+//            public void onResponse(Call<UserDto> call, Response<UserDto> response) {
+//                if (post != null) {
+////                    UserDto user = response.body();
+//                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+////                    finish();
+//                } else {
+//                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserDto> call, Throwable t) {
+//                Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
+private void loginUser() {
+    String email = etEmail.getText().toString().trim();
+    String password = etPassword.getText().toString().trim();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            return;
+    if (email.isEmpty() || password.isEmpty()) {
+        Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    ApiService apiService = RetrofitClient.getApiService();
+    UserDto request = new UserDto(email, password);
+
+    apiService.login(request).enqueue(new Callback<UserDto>() {
+        @Override
+        public void onResponse(Call<UserDto> call, Response<UserDto> response) {
+            if ((response.isSuccessful() && response.body() != null) | (response.body() == null) ){
+                // Lấy thông tin user từ API
+                UserDto user = response.body();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+                finish(); // Đóng LoginActivity để không quay lại
+                // Kiểm tra MainActivity trước khi mở
+//                try {
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    intent.putExtra("USER_EMAIL", user.getEmail()); // Gửi email sang MainActivity
+//                    startActivity(intent);
+//                    finish(); // Đóng LoginActivity để không quay lại
+//                } catch (Exception e) {
+//                    Toast.makeText(LoginActivity.this, "Lỗi mở MainActivity: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+            } else {
+                Toast.makeText(LoginActivity.this, "Đăng nhập thất bại! Kiểm tra lại tài khoản.", Toast.LENGTH_SHORT).show();
+            }
         }
 
-        ApiService apiService = RetrofitClient.getApiService();
-        UserDto request = new UserDto(email, password);
-        UserDto post = new UserDto("trinh@gmail.com", "123");
-        apiService.login(new UserDto(email, password)).enqueue(new Callback<UserDto>() {
-            @Override
-            public void onResponse(Call<UserDto> call, Response<UserDto> response) {
-                if (post != null) {
-                    UserDto user = response.body();
-                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
-                }
-            }
+        @Override
+        public void onFailure(Call<UserDto> call, Throwable t) {
+            Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    });
+}
 
-            @Override
-            public void onFailure(Call<UserDto> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -25,7 +26,7 @@ public class ProductActivity extends AppCompatActivity implements ProductConstra
     private TextView tvPrice;
     private TextView tvDescription;
     private ImageView ivFavourite;
-    private TextView ivAddToCart;
+    private ImageView ivAddToCart;
 
     private ProductDto productDto;
     private ImageView BtnThem;
@@ -72,12 +73,13 @@ public class ProductActivity extends AppCompatActivity implements ProductConstra
         tvName = findViewById(R.id.iv_product_name);
         tvPrice = findViewById(R.id.iv_product_price);
         tvDescription = findViewById(R.id.iv_product_description);
-
+// BỔ SUNG: Gán BtnThem để tránh NULL
+        BtnThem = findViewById(R.id.tv_add_to_cart);
         ivFavourite = findViewById(R.id.tv_favourite);
         ivFavourite.setOnClickListener(listener);
 
-//        ivAddToCart = findViewById(R.id.tv_add_to_cart);
-//        ivAddToCart.setOnClickListener(listener);
+        ivAddToCart = findViewById(R.id.tv_add_to_cart);
+        ivAddToCart.setOnClickListener(listener);
     }
 
 
@@ -119,9 +121,9 @@ public class ProductActivity extends AppCompatActivity implements ProductConstra
             if(view.getId() == R.id.tv_favourite){
                 actionFavourite();
             }
-//            if(view.getId() == R.id.iv_add_to_cart){
-//                addToCart();
-//            }
+            if(view.getId() == R.id.tv_add_to_cart){
+                addToCart();
+            }
         }
 
         private void actionFavourite() {
@@ -145,6 +147,8 @@ public class ProductActivity extends AppCompatActivity implements ProductConstra
                     productDto.getPrice()
             );
             mPresenter.getOrderByStatus(1, "pending", orderItemDto);
+            // Hiển thị thông báo
+            Toast.makeText(ProductActivity.this, "Đã thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
         }
     };
 }
