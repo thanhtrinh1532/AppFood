@@ -1,0 +1,4 @@
+<resources>
+    <!-- Định nghĩa khoảng cách giữa các item trong RecyclerView -->
+    <dimen name="spacing">3dp</dimen>
+</resources>
